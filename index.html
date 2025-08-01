@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bharath Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 24px;
+           
+        }
+
+        .header-buttons {
+        
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            background-color: white;
+            color: #007BFF;
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            height: 80vh;
+        }
+
+        .left {
+            width: 30%;
+            background-color: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right {
+            width: 70%;
+            background-color: #ffffff;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <button onclick="showHome()">Home</button>
+        </div>
+
+        <div class="header-buttons">
+
+            <button onclick="showAbout()">About</button>
+            <button onclick="showInfo()">Info</button>
+        </div>
+        
+    </header>
+
+    <div class="container">
+        <div class="left" id="left-area">
+            <!-- Image will show here -->
+        </div>
+        <div class="right" id="content-area">
+            <!-- Content will show here -->
+        </div>
+    </div>
+
+    <footer>
+        @copyrights 2025
+    </footer>
+
+    <script> 
+       
+
+        function showAbout() {
+            document.getElementById('left-area').innerHTML =
+                "<img src='assets\\img1.jpg' alt='logo' class='profile-img'>";
+            document.getElementById('content-area').innerHTML =
+                "<strong>Name:</strong> Bharath reddy <br><strong>Qualification:</strong> master's in information system<br><strong>Training In:</strong> Java Full Stack Development<br><strong>Skills:</strong> Java, HTML, CSS, JavaScript, ReactJS, NodeJS, ExpressJS, MongoDB<br><strong>Hobbies:</strong> Playing cricket, watching movies, listening to music<br><strong>Location:</strong> Ohio<br><strong>Languages:</strong> English, Telugu, Hindi<br>";
+        }
+
+        function showInfo() {
+            document.getElementById('left-area').innerHTML =
+                "<img src='assets\\img1.jpg'  alt='logo' class='profile-img'>";
+            document.getElementById('content-area').innerHTML =
+                "<strong>Mobile:</strong> 216-224-4723<br> <strong> mail Id :</strong> sunny123@gmail.com<br>";
+        }
+        function showHome() {
+            document.getElementById('left-area').innerHTML =
+                "<img src='assets\\img1.jpg'  alt='logo' class='profile-img'>";
+            document.getElementById('content-area').innerHTML =
+                " See you Again  Goodbye";
+        }
+
+         
+        
+    </script>
+
+</body>
+</html>
