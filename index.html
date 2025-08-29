@@ -10,7 +10,7 @@
         }
 
         header {
-            background-color: #007BFF;
+            background-color: black;
             color: white;
             padding: 35px;
             display: flex;
@@ -30,7 +30,7 @@
 
         button {
             padding: 8px 16px;
-            font-size: 14px;
+            font-size: 12px;
             border: none;
             border-radius: 4px;
             background-color: white;
@@ -38,29 +38,32 @@
             cursor: pointer;
         }
 
-        .container {
-            display: flex;
-            height: 80vh;
-        }
-
-        .left {
-            width: 30%;
-            background-color: #f0f0f0;
-            padding: 10px;
+        .center-container {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            min-height: 60vh;
+            margin: 16px 0 32px 0;
         }
-
-        .right {
-            width: 70%;
-            background-color: #ffffff;
-            padding: 20px;
-            font-size: 18px;
+        .center-form {
+            background: #fff;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            min-width: 40px;
+            max-width: 120px;
+            width: 100%;
+            font-size: 9px;
+        }
+        .center-form form > * {
+            margin-bottom: 0;
+        }
+        .center-form h2, .center-form h3 {
+            text-align: center;
         }
 
         footer {
-            background-color: #007BFF;
+            background-color: black;
             color: white;
             text-align: center;
             padding: 10px;
@@ -84,48 +87,187 @@
 
             <button onclick="showAbout()">About</button>
             <button onclick="showInfo()">Info</button>
+            <button onclick="showRegistration()">Registration</button>
+            <button onclick="showLogin()">Login</button>
         </div>
         
     </header>
 
-    <div class="container">
-        <div class="left" id="left-area">
-            <!-- Image will show here -->
-        </div>
-        <div class="right" id="content-area">
+    <div class="center-container">
+        <div class="center-form" id="content-area">
             <!-- Content will show here -->
         </div>
     </div>
 
     <footer>
-        @copyrights 2025
+    @copyrights 2025
     </footer>
 
     <script> 
-       
+        function showLogin() {
+            document.getElementById('content-area').innerHTML = `
+                <h2>Login</h2>
+                <form id="loginForm" onsubmit="submitLogin(event)">
+                    <label for="loginEmail">Email:</label><br>
+                    <input type="email" id="loginEmail" name="loginEmail" required><br><br>
+                    <label for="loginPassword">Password:</label><br>
+                    <input type="password" id="loginPassword" name="loginPassword" required><br><br>
+                    <button type="submit">Login</button>
+                </form>
+                <div id="loginMessage"></div>
+            `;
+        }
+
+        function submitLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            // Check against registered users
+            const user = registrations.find(r => r.email === email && r.password === password);
+            if (user) {
+                document.getElementById('loginMessage').innerHTML = `<span style='color:green;'>Login successful! Welcome, ${user.name}.</span>`;
+            } else {
+                document.getElementById('loginMessage').innerHTML = "<span style='color:red;'>Invalid email or password.</span>";
+            }
+        }
+        // Registration data storage
+        let registrations = [];
+        let editIndex = null;
 
         function showAbout() {
-            document.getElementById('left-area').innerHTML =
-                "<img src='assets\\img1.jpg' alt='logo' class='profile-img'>";
             document.getElementById('content-area').innerHTML =
+                "<img src='assets\\img1.jpg' alt='logo' class='profile-img'><br>" +
                 "<strong>Name:</strong> Bharath reddy <br><strong>Qualification:</strong> master's in information system<br><strong>Training In:</strong> Java Full Stack Development<br><strong>Skills:</strong> Java, HTML, CSS, JavaScript, ReactJS, NodeJS, ExpressJS, MongoDB<br><strong>Hobbies:</strong> Playing cricket, watching movies, listening to music<br><strong>Location:</strong> Ohio<br><strong>Languages:</strong> English, Telugu, Hindi<br>";
         }
 
         function showInfo() {
-            document.getElementById('left-area').innerHTML =
-                "<img src='assets\\img1.jpg'  alt='logo' class='profile-img'>";
             document.getElementById('content-area').innerHTML =
-                "<strong>Mobile:</strong> 216-224-4723<br> <strong> mail Id :</strong> sunny123@gmail.com<br>";
+                "<img src='assets\\img1.jpg'  alt='logo' class='profile-img'><br>" +
+                "<strong>Mobile:</strong> 216-860-8445<br> <strong> mail Id :</strong> bharatbanu6@gmail.com<br>";
         }
+
         function showHome() {
-            document.getElementById('left-area').innerHTML =
-                "<img src='assets\\img1.jpg'  alt='logo' class='profile-img'>";
             document.getElementById('content-area').innerHTML =
                 " See you Again  Goodbye";
         }
 
-         
-        
+        function showRegistration() {
+            // No left-area, only center
+            let reg = editIndex !== null ? registrations[editIndex] : {};
+            document.getElementById('content-area').innerHTML = `
+                <h2>Registration Form</h2>
+                <form id="registrationForm" onsubmit="submitRegistration(event)">
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name" value="${reg?.name || ''}" required><br><br>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" value="${reg?.email || ''}" required><br><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" value="${reg?.password || ''}" required><br><br>
+
+                    <label>Gender:</label><br>
+                    <input type="radio" id="male" name="gender" value="Male" ${reg?.gender === 'Male' ? 'checked' : ''} required>
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="Female" ${reg?.gender === 'Female' ? 'checked' : ''}>
+                    <label for="female">Female</label>
+                    <input type="radio" id="other" name="gender" value="Other" ${reg?.gender === 'Other' ? 'checked' : ''}>
+                    <label for="other">Other</label><br><br>
+
+                    <label for="country">Country:</label><br>
+                    <select id="country" name="country" required>
+                        <option value="">Select</option>
+                        <option value="India" ${reg?.country === 'India' ? 'selected' : ''}>India</option>
+                        <option value="USA" ${reg?.country === 'USA' ? 'selected' : ''}>USA</option>
+                        <option value="UK" ${reg?.country === 'UK' ? 'selected' : ''}>UK</option>
+                        <option value="Other" ${reg?.country === 'Other' ? 'selected' : ''}>Other</option>
+                    </select><br><br>
+
+                    <input type="checkbox" id="terms" name="terms" required ${reg?.terms === 'Agreed' ? 'checked' : ''}>
+                    <label for="terms">I agree to the terms and conditions</label><br><br>
+
+                    <button type="submit">${editIndex === null ? 'Register' : 'Update'}</button>
+                    ${editIndex !== null ? '<button type="button" onclick="cancelEdit()">Cancel</button>' : ''}
+                </form>
+                <div id="registrationMessage"></div>
+                <h3>Registered Users</h3>
+                <div id="registrationsTable"></div>
+            `;
+            renderRegistrations();
+        }
+
+        function submitRegistration(event) {
+            event.preventDefault();
+            const form = document.getElementById('registrationForm');
+            const formData = new FormData(form);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+                gender: formData.get('gender'),
+                country: formData.get('country'),
+                terms: formData.get('terms') ? 'Agreed' : 'Not Agreed'
+            };
+            if (editIndex === null) {
+                registrations.push(data);
+                document.getElementById('registrationMessage').innerHTML = "<span style='color:green;'>Registration successful!</span>";
+            } else {
+                registrations[editIndex] = data;
+                document.getElementById('registrationMessage').innerHTML = "<span style='color:blue;'>Registration updated!</span>";
+                editIndex = null;
+            }
+            form.reset();
+            renderRegistrations();
+            showRegistration();
+        }
+
+        function renderRegistrations() {
+            const tableDiv = document.getElementById('registrationsTable');
+            if (!registrations.length) {
+                tableDiv.innerHTML = '<em>No registrations yet.</em>';
+                return;
+            }
+            let html = '<table border="1" cellpadding="4" style="border-collapse:collapse;width:100%">';
+            html += '<tr><th>Name</th><th>Email</th><th>Gender</th><th>Country</th><th>Terms</th><th>Actions</th></tr>';
+            registrations.forEach((reg, idx) => {
+                html += `<tr>
+                    <td>${reg.name}</td>
+                    <td>${reg.email}</td>
+                    <td>${reg.gender}</td>
+                    <td>${reg.country}</td>
+                    <td>${reg.terms}</td>
+                    <td>
+                        <button onclick="editRegistration(${idx})">Update</button>
+                        <button onclick="deleteRegistration(${idx})">Delete</button>
+                    </td>
+                </tr>`;
+            });
+            html += '</table>';
+            tableDiv.innerHTML = html;
+        }
+
+        function editRegistration(idx) {
+            editIndex = idx;
+            showRegistration();
+            const reg = registrations[idx];
+            document.getElementById('name').value = reg.name;
+            document.getElementById('email').value = reg.email;
+            document.getElementById('password').value = reg.password;
+            document.getElementById(reg.gender.toLowerCase()).checked = true;
+            document.getElementById('country').value = reg.country;
+            document.getElementById('terms').checked = reg.terms === 'Agreed';
+        }
+
+        function deleteRegistration(idx) {
+            if (confirm('Are you sure you want to delete this registration?')) {
+                registrations.splice(idx, 1);
+                renderRegistrations();
+                showRegistration();
+            }
+        }
+
+        function cancelEdit() {
+            editIndex = null;
+            showRegistration();
+        }
     </script>
 
 </body>
